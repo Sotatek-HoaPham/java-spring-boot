@@ -33,12 +33,9 @@ public class ConfigController {
     public ResponseEntity<Map<String, Object>> getDatabaseConfig() {
         AppProperties.Database dbConfig = appProperties.getDatabase();
         Map<String, Object> dbInfo = new HashMap<>();
-        
-        dbInfo.put("url", dbConfig.getUrl());
-        dbInfo.put("username", dbConfig.getUsername());
+
         dbInfo.put("connectionTimeout", dbConfig.getConnectionTimeout());
         dbInfo.put("maxPoolSize", dbConfig.getMaxPoolSize());
-        // Don't expose password in real application
         
         return ResponseEntity.ok(dbInfo);
     }
@@ -71,8 +68,7 @@ public class ConfigController {
         Map<String, Object> result = new HashMap<>();
         boolean isEnabled = "enabled".equals(appProperties.getFeatures().get(featureName));
         result.put("enabled", isEnabled);
-        result.put("feature", featureName); // featureName là String, không phải Boolean
-        
+        result.put("feature", featureName);
         return ResponseEntity.ok(result);
     }
 }

@@ -3,9 +3,9 @@ spring:
     name: hanna
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/hanna_db
-    username: hanna_user
-    password: hanna_pass
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -14,6 +14,9 @@ spring:
       ddl-auto: update
     show-sql: true
 
+  config:
+    import: optional:file:.env[.properties]
+
 server:
   port: 8080
 
@@ -21,19 +24,16 @@ server:
 app:
   name: "Hanna Application"
   version: "1.0.0"
-  adminEmail: "admin@hanna.com"
+  adminEmail: ${ADMIN_EMAIL}
   maxConnections: 20
   debugMode: true
   
   database:
-    url: "jdbc:postgresql://localhost:5432/hanna_db"
-    username: "hanna_user"
-    password: "hanna_pass"
     connectionTimeout: 30000
     maxPoolSize: 15
   
   security:
-    jwtSecret: "mySecretKey123456789"
+    jwtSecret: ${JWT_SECRET}
     jwtExpirationMs: 86400000
     enableCors: true
     corsAllowedMethods:
@@ -46,7 +46,6 @@ app:
   allowedOrigins:
     - "http://localhost:3000"
     - "http://localhost:8080"
-    - "https://hanna.com"
   
   features:
     userRegistration: "enabled"

@@ -1,5 +1,6 @@
 package com.example.project.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -22,6 +23,7 @@ public class User {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
+    @JsonIgnore
     private Role role;
 
     public User() {

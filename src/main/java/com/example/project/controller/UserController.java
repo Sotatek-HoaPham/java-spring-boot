@@ -26,7 +26,7 @@ class UserController {
     }
 
     @GetMapping("/{id}")
-    public User findById(@RequestParam Long id) {
+    public User findById(@PathVariable Long id) {
         return userService.findById(id);
     }
 
@@ -38,6 +38,11 @@ class UserController {
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
         userService.deleteUserById(id);
+    }
+    
+    @PostMapping("/verify-password")
+    public boolean verifyPassword(@RequestParam String username, @RequestParam String password) {
+        return userService.verifyUserPassword(username, password);
     }
 
 }

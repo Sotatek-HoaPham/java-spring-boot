@@ -18,18 +18,23 @@ public class UserService {
 
     @Autowired
     private RoleRepository roleRepository;
+    
+    @Autowired
+    private PasswordService passwordService;
 
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
     public User findById(Long id) {
+        System.out.printf("id: %d", id);
         return userRepository.findById(id).orElse(null);
     }
 
     public User createUser(CreateUserDTO userDto) {
         Role role = roleRepository.getRolesById(userDto.getRoleId());
-        User user = new User(userDto.getUsername(), userDto.getPassword(), userDto.getFullname(), role);
+        String hashedPassword = passwordService.hashPassword(userDto.getPassword());
+        User user = new User(userDto.getUsername(), hashedPassword, userDto.getFullname(), role);
         return userRepository.save(user);
     }
 
@@ -40,5 +45,19 @@ public class UserService {
     public User updateUser(Long id, User user) {
         user.setId(id);
         return userRepository.save(user);
+    }
+    
+    /**
+     * Verify user password
+     * @param username user's username
+     * @param rawPassword plain text password
+     * @return true if password matches
+     */
+    public boolean verifyUserPassword(String username, String rawPassword) {
+        User user = userRepository.findUserByUsername(username);
+        if (user == null) {
+            return false;
+        }
+        return passwordService.verifyPassword(rawPassword, user.getPassword());
     }
 }

@@ -114,44 +114,11 @@ public class AppProperties {
 
     // Nested classes
     public static class Database {
-        @NotBlank(message = "Database URL is required")
-        private String url;
-
-        @NotBlank(message = "Database username is required")
-        private String username;
-
-        @NotBlank(message = "Database password is required")
-        private String password;
-
         private int connectionTimeout = 30000;
 
         private int maxPoolSize = 10;
 
         // Getters and Setters
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-
         public int getConnectionTimeout() {
             return connectionTimeout;
         }
