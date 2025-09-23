@@ -1,0 +1,51 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/hanna_test_db
+    username: hanna_user
+    password: hanna_pass
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+
+server:
+  port: 8081
+
+# Custom Application Properties - Test Environment
+app:
+  name: "Hanna Test"
+  version: "1.0.0-test"
+  adminEmail: "test-admin@hanna.com"
+  maxConnections: 2
+  debugMode: false
+  
+  database:
+    url: "jdbc:postgresql://localhost:5432/hanna_test_db"
+    username: "hanna_user"
+    password: "hanna_pass"
+    connectionTimeout: 10000
+    maxPoolSize: 2
+  
+  security:
+    jwtSecret: "testSecretKey123456789"
+    jwtExpirationMs: 1800000  # 30 minutes for test
+    enableCors: true
+    corsAllowedMethods:
+      - "GET"
+      - "POST"
+      - "PUT"
+      - "DELETE"
+      - "OPTIONS"
+  
+  allowedOrigins:
+    - "http://localhost:3000"
+    - "http://localhost:8081"
+  
+  features:
+    userRegistration: "enabled"
+    emailNotifications: "disabled"  # Disabled in test
+    auditLogging: "disabled"  # Disabled in test
+    rateLimiting: "disabled"  # Disabled in test
+    debugLogging: "disabled"

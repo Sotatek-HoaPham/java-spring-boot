@@ -1,0 +1,54 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/hanna_dev_db
+    username: hanna_user
+    password: hanna_pass
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+
+server:
+  port: 8080
+
+debug: true
+
+# Custom Application Properties - Development Environment
+app:
+  name: "Hanna Development"
+  version: "1.0.0-dev"
+  adminEmail: "dev-admin@hanna.com"
+  maxConnections: 5
+  debugMode: true
+  
+  database:
+    url: "jdbc:postgresql://localhost:5432/hanna_dev_db"
+    username: "hanna_user"
+    password: "hanna_pass"
+    connectionTimeout: 15000
+    maxPoolSize: 5
+  
+  security:
+    jwtSecret: "devSecretKey123456789"
+    jwtExpirationMs: 3600000  # 1 hour for dev
+    enableCors: true
+    corsAllowedMethods:
+      - "GET"
+      - "POST"
+      - "PUT"
+      - "DELETE"
+      - "OPTIONS"
+  
+  allowedOrigins:
+    - "http://localhost:3000"
+    - "http://localhost:8080"
+    - "http://localhost:4200"
+  
+  features:
+    userRegistration: "enabled"
+    emailNotifications: "disabled"  # Disabled in dev
+    auditLogging: "enabled"
+    rateLimiting: "disabled"  # Disabled in dev
+    debugLogging: "enabled"

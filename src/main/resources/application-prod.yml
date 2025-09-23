@@ -1,0 +1,53 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/hanna_db
+    username: hanna_user
+    password: hanna_pass
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+server:
+  port: 8080
+
+debug: false
+
+# Custom Application Properties - Production Environment
+app:
+  name: "Hanna Production"
+  version: "1.0.0"
+  adminEmail: "admin@hanna.com"
+  maxConnections: 50
+  debugMode: false
+  
+  database:
+    url: "jdbc:postgresql://prod-server:5432/hanna_prod_db"
+    username: "hanna_prod_user"
+    password: "hanna_prod_pass"
+    connectionTimeout: 60000
+    maxPoolSize: 50
+  
+  security:
+    jwtSecret: "prodSecretKey987654321"
+    jwtExpirationMs: 86400000  # 24 hours for prod
+    enableCors: true
+    corsAllowedMethods:
+      - "GET"
+      - "POST"
+      - "PUT"
+      - "DELETE"
+  
+  allowedOrigins:
+    - "https://hanna.com"
+    - "https://www.hanna.com"
+    - "https://api.hanna.com"
+  
+  features:
+    userRegistration: "enabled"
+    emailNotifications: "enabled"
+    auditLogging: "enabled"
+    rateLimiting: "enabled"
+    debugLogging: "disabled"
