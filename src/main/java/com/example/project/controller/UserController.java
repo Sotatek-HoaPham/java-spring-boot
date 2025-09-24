@@ -1,9 +1,14 @@
 package com.example.project.controller;
 
-import com.example.project.dto.request.CreateUserDTO;
-import com.example.project.entity.User;
-import com.example.project.service.UserService;
+import com.example.project.application.dto.CreateUserCommand;
+import com.example.project.application.dto.UpdateUserCommand;
+import com.example.project.application.dto.UserResponse;
+import com.example.project.application.service.UserApplicationService;
+import com.example.project.dto.response.ApiResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,36 +18,45 @@ import java.util.List;
 class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserApplicationService userApplicationService;
 
     @GetMapping
-    public List<User> findAll() {
-        return userService.findAll();
+    public ResponseEntity<ApiResponse<List<UserResponse>>> findAll() {
+        List<UserResponse> users = userApplicationService.findAllUsers();
+        return ResponseEntity.ok(ApiResponse.success(users));
     }
 
     @PostMapping
-    public User createUser(@RequestBody CreateUserDTO user) {
-        return userService.createUser(user);
+    public ResponseEntity<ApiResponse<UserResponse>> createUser(@Valid @RequestBody CreateUserCommand command) {
+        UserResponse createdUser = userApplicationService.createUser(command);
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(ApiResponse.success(createdUser));
     }
 
     @GetMapping("/{id}")
-    public User findById(@PathVariable Long id) {
-        return userService.findById(id);
+    public ResponseEntity<ApiResponse<UserResponse>> findById(@PathVariable Long id) {
+        UserResponse user = userApplicationService.findUserById(id);
+        return ResponseEntity.ok(ApiResponse.success(user));
     }
 
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user) {
-        return userService.updateUser(id, user);
+    public ResponseEntity<ApiResponse<UserResponse>> updateUser(@PathVariable Long id, @Valid @RequestBody UpdateUserCommand command) {
+        UserResponse updatedUser = userApplicationService.updateUser(id, command);
+        return ResponseEntity.ok(ApiResponse.success(updatedUser));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
-        userService.deleteUserById(id);
+    public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable Long id) {
+        userApplicationService.deleteUser(id);
+        return ResponseEntity.ok(ApiResponse.success("User deleted successfully"));
     }
     
     @PostMapping("/verify-password")
-    public boolean verifyPassword(@RequestParam String username, @RequestParam String password) {
-        return userService.verifyUserPassword(username, password);
+    public ResponseEntity<ApiResponse<Boolean>> verifyPassword(
+            @RequestParam String username, 
+            @RequestParam String password) {
+        boolean isValid = userApplicationService.verifyUserPassword(username, password);
+        return ResponseEntity.ok(ApiResponse.success(isValid, "Password verification completed"));
     }
 
 }
