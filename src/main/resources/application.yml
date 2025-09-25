@@ -24,18 +24,10 @@ server:
 app:
   name: "Hanna Application"
   version: "1.0.0"
-  adminEmail: ${ADMIN_EMAIL}
-  maxConnections: 20
-  debugMode: true
-  
-  database:
-    connectionTimeout: 30000
-    maxPoolSize: 15
   
   security:
     jwtSecret: ${JWT_SECRET}
     jwtExpirationMs: 86400000
-    enableCors: true
     corsAllowedMethods:
       - "GET"
       - "POST"
@@ -46,9 +38,11 @@ app:
   allowedOrigins:
     - "http://localhost:3000"
     - "http://localhost:8080"
-  
-  features:
-    userRegistration: "enabled"
-    emailNotifications: "enabled"
-    auditLogging: "disabled"
-    rateLimiting: "enabled"
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+  show-actuator: true

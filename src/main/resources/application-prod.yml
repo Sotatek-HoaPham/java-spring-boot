@@ -22,18 +22,10 @@ debug: false
 app:
   name: "Hanna Production"
   version: "1.0.0"
-  adminEmail: ${ADMIN_EMAIL}
-  maxConnections: 50
-  debugMode: false
-  
-  database:
-    connectionTimeout: 60000
-    maxPoolSize: 50
   
   security:
     jwtSecret: ${JWT_SECRET}
     jwtExpirationMs: 86400000  # 24 hours for prod
-    enableCors: true
     corsAllowedMethods:
       - "GET"
       - "POST"
@@ -43,10 +35,11 @@ app:
   allowedOrigins:
     - "https://example.com"
     - "https://www.example.com"
-  
-  features:
-    userRegistration: "enabled"
-    emailNotifications: "enabled"
-    auditLogging: "enabled"
-    rateLimiting: "enabled"
-    debugLogging: "disabled"
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: false  # Disabled in production for security
+  show-actuator: false

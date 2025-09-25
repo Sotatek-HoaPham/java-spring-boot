@@ -22,18 +22,10 @@ debug: true
 app:
   name: "Hanna Development"
   version: "1.0.0-dev"
-  adminEmail: "dev-admin@hanna.com"
-  maxConnections: 5
-  debugMode: true
-  
-  database:
-    connectionTimeout: 15000
-    maxPoolSize: 5
   
   security:
     jwtSecret: ${JWT_SECRET}
     jwtExpirationMs: 3600000  # 1 hour for dev
-    enableCors: true
     corsAllowedMethods:
       - "GET"
       - "POST"
@@ -44,11 +36,11 @@ app:
   allowedOrigins:
     - "http://localhost:3000"
     - "http://localhost:8080"
-    - "http://localhost:4200"
-  
-  features:
-    userRegistration: "enabled"
-    emailNotifications: "disabled"  # Disabled in dev
-    auditLogging: "enabled"
-    rateLimiting: "disabled"  # Disabled in dev
-    debugLogging: "enabled"
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+  show-actuator: true
